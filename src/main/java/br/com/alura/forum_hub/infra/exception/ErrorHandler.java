@@ -8,6 +8,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @RestControllerAdvice
 public class ErrorHandler {
 	private record DadosErroValidacao(String campo, String mensagem) {
@@ -21,5 +23,10 @@ public class ErrorHandler {
 		var errors = ex.getFieldErrors();
 		return ResponseEntity.badRequest()
 				.body(errors.stream().map(DadosErroValidacao::new).toList());
+	}
+
+	@ExceptionHandler(EntityNotFoundException.class)
+	public ResponseEntity<Void> handle404(EntityNotFoundException ex) {
+		return ResponseEntity.notFound().build();
 	}
 }
