@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.alura.forum_hub.domain.curso.Curso;
 import br.com.alura.forum_hub.domain.curso.CursoRepository;
+import br.com.alura.forum_hub.domain.curso.DadosAtualizacaoCurso;
 import br.com.alura.forum_hub.domain.curso.DadosCadastroCurso;
 import br.com.alura.forum_hub.domain.curso.DadosDetalhamentoCurso;
 import br.com.alura.forum_hub.domain.curso.DadosListagemCurso;
@@ -51,5 +53,15 @@ public class CursoController {
 				.toUri();
 
 		return ResponseEntity.created(uri).body(new DadosDetalhamentoCurso(curso));
+	}
+
+	@PutMapping("/{id}")
+	@Transactional
+	public ResponseEntity<DadosDetalhamentoCurso> atualizar(
+			@PathVariable Long id,
+			@RequestBody @Valid DadosAtualizacaoCurso dados) {
+		var curso = repository.getReferenceById(id);
+		curso.atualizar(dados);
+		return ResponseEntity.ok(new DadosDetalhamentoCurso(curso));
 	}
 }
