@@ -3,6 +3,7 @@ package br.com.alura.forum_hub.infra.exception;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -28,5 +29,10 @@ public class ErrorHandler {
 	@ExceptionHandler(EntityNotFoundException.class)
 	public ResponseEntity<Void> handle404(EntityNotFoundException ex) {
 		return ResponseEntity.notFound().build();
+	}
+
+	@ExceptionHandler(HttpMessageNotReadableException.class)
+	public ResponseEntity<String> handle400(HttpMessageNotReadableException ex) {
+		return ResponseEntity.badRequest().body(ex.getMessage());
 	}
 }
