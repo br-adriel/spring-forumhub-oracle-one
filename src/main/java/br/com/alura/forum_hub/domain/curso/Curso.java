@@ -1,5 +1,7 @@
 package br.com.alura.forum_hub.domain.curso;
 
+import br.com.alura.forum_hub.domain.curso.dto.DadosAtualizacaoCurso;
+import br.com.alura.forum_hub.domain.curso.dto.DadosCadastroCurso;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

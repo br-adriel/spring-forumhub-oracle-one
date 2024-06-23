@@ -17,10 +17,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.alura.forum_hub.domain.curso.Curso;
 import br.com.alura.forum_hub.domain.curso.CursoRepository;
-import br.com.alura.forum_hub.domain.curso.DadosAtualizacaoCurso;
-import br.com.alura.forum_hub.domain.curso.DadosCadastroCurso;
-import br.com.alura.forum_hub.domain.curso.DadosDetalhamentoCurso;
-import br.com.alura.forum_hub.domain.curso.DadosListagemCurso;
+import br.com.alura.forum_hub.domain.curso.dto.DadosAtualizacaoCurso;
+import br.com.alura.forum_hub.domain.curso.dto.DadosCadastroCurso;
+import br.com.alura.forum_hub.domain.curso.dto.DadosDetalhamentoCurso;
+import br.com.alura.forum_hub.domain.curso.dto.DadosListagemCurso;
 import jakarta.validation.Valid;
 
 @RestController
