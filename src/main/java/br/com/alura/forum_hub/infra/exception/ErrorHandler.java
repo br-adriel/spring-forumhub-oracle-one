@@ -2,8 +2,10 @@ package br.com.alura.forum_hub.infra.exception;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -40,5 +42,10 @@ public class ErrorHandler {
 	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
 	public ResponseEntity<String> handle400(MethodArgumentTypeMismatchException ex) {
 		return ResponseEntity.badRequest().body(ex.getMessage());
+	}
+
+	@ExceptionHandler(BadCredentialsException.class)
+	public ResponseEntity<String> handleBadCredentials() {
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciais inválidas");
 	}
 }
