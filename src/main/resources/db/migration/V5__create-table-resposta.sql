@@ -1,9 +1,9 @@
 CREATE TABLE tb_resposta (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     mensagem TEXT NOT NULL,
-    topico INT,
+    topico BIGINT,
     data_riacao DATETIME NOT NULL,
-    autor INT,
+    autor BIGINT,
     solucao BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (topico) REFERENCES tb_topico(id),
     FOREIGN KEY (autor) REFERENCES tb_usuario(id)
