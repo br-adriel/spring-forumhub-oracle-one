@@ -1,18 +1,17 @@
-package br.com.alura.forum_hub.validation;
+package br.com.alura.forum_hub.domain.topico.validation;
 
-import br.com.alura.forum_hub.domain.topico.DadosTopico;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 public class TituloMensagemDiferentesValidator
-		implements ConstraintValidator<TituloMensagemDiferentes, DadosTopico> {
+		implements ConstraintValidator<TituloMensagemDiferentes, DtoCamposTituloMensagem> {
 
 	@Override
 	public void initialize(TituloMensagemDiferentes constraintAnnotation) {
 	}
 
 	@Override
-	public boolean isValid(DadosTopico dados, ConstraintValidatorContext context) {
+	public boolean isValid(DtoCamposTituloMensagem dados, ConstraintValidatorContext context) {
 		if (dados == null || dados.titulo() == null || dados.mensagem() == null) {
 			return true;
 		}

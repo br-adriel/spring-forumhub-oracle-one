@@ -1,4 +1,4 @@
-package br.com.alura.forum_hub.validation;
+package br.com.alura.forum_hub.domain.topico.validation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
