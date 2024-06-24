@@ -1,4 +1,4 @@
-package br.com.alura.forum_hub.domain.topico;
+package br.com.alura.forum_hub.domain.topico.dto;
 
 import br.com.alura.forum_hub.domain.topico.validation.DtoCamposTituloMensagem;
 import br.com.alura.forum_hub.domain.topico.validation.TituloMensagemDiferentes;
@@ -9,6 +9,5 @@ import jakarta.validation.constraints.NotNull;
 public record DadosCadastroTopico(
 		@NotBlank String titulo,
 		@NotBlank String mensagem,
-		@NotNull Long autor,
 		@NotNull Long curso) implements DtoCamposTituloMensagem {
 }
