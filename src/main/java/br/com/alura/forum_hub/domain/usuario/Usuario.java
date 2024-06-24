@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import br.com.alura.forum_hub.infra.security.auth.dto.DadosCadastroUsuario;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -76,5 +77,12 @@ public class Usuario implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+
+	public Usuario(DadosCadastroUsuario dados, String senhaCriptografada, Set<Perfil> perfis) {
+		this.email = dados.email();
+		this.nome = dados.nome();
+		this.senha = senhaCriptografada;
+		this.perfis = perfis;
 	}
 }
