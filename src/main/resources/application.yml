@@ -9,3 +9,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+api:
+  security:
+    token:
+      secret: u3R5x5NM8FjsDDiiSD7dXKzWONs47zdg
+      access-expiration-minutes: 30
