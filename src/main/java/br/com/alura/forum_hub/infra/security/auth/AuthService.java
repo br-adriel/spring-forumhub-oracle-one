@@ -1,6 +1,7 @@
 package br.com.alura.forum_hub.infra.security.auth;
 
 import java.util.HashSet;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,8 +14,9 @@ import br.com.alura.forum_hub.domain.usuario.Perfil;
 import br.com.alura.forum_hub.domain.usuario.PerfilRepository;
 import br.com.alura.forum_hub.domain.usuario.Usuario;
 import br.com.alura.forum_hub.domain.usuario.UsuarioRepository;
+import br.com.alura.forum_hub.domain.usuario.dto.DadosCadastroUsuario;
+import br.com.alura.forum_hub.domain.usuario.validation.ValidadorCadastroUsuario;
 import br.com.alura.forum_hub.infra.security.auth.dto.DadosAutenticacaoBemSucedida;
-import br.com.alura.forum_hub.infra.security.auth.dto.DadosCadastroUsuario;
 import br.com.alura.forum_hub.infra.security.auth.dto.DadosLogin;
 
 @Service
@@ -34,12 +36,17 @@ public class AuthService {
 	@Autowired
 	private PerfilRepository perfilRepository;
 
+	@Autowired
+	private List<ValidadorCadastroUsuario> validadoresCadastro;
+
 	public DadosAutenticacaoBemSucedida login(DadosLogin dados) {
 		return autenticar(dados.email(), dados.senha());
 	}
 
 	@Transactional
 	public DadosAutenticacaoBemSucedida registrar(DadosCadastroUsuario dados) {
+		validadoresCadastro.forEach(v -> v.validar(dados));
+
 		var senhaCriptografada = passwordEncoder.encode(dados.senha());
 		var perfilPadrao = perfilRepository.findByNome("Estudante");
 		var perfis = new HashSet<Perfil>();

@@ -8,7 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import br.com.alura.forum_hub.infra.security.auth.dto.DadosCadastroUsuario;
+import br.com.alura.forum_hub.domain.usuario.dto.DadosCadastroUsuario;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;

@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.alura.forum_hub.domain.usuario.dto.DadosCadastroUsuario;
 import br.com.alura.forum_hub.infra.security.auth.AuthService;
 import br.com.alura.forum_hub.infra.security.auth.dto.DadosAutenticacaoBemSucedida;
-import br.com.alura.forum_hub.infra.security.auth.dto.DadosCadastroUsuario;
 import br.com.alura.forum_hub.infra.security.auth.dto.DadosLogin;
 import jakarta.validation.Valid;
 
