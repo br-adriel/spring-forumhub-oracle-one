@@ -3,6 +3,7 @@ package br.com.alura.forum_hub.domain.topico;
 import java.time.LocalDateTime;
 
 import br.com.alura.forum_hub.domain.curso.Curso;
+import br.com.alura.forum_hub.domain.topico.dto.DadosAtualizacaoTopico;
 import br.com.alura.forum_hub.domain.usuario.Usuario;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -47,4 +48,18 @@ public class Topico {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "curso", nullable = false)
 	private Curso curso;
+
+	public void atualizar(DadosAtualizacaoTopico dados, Curso curso) {
+		if (dados.mensagem() != null) {
+			this.mensagem = dados.mensagem();
+		}
+
+		if (curso != null) {
+			this.curso = curso;
+		}
+
+		if (dados.titulo() != null) {
+			this.titulo = dados.titulo();
+		}
+	}
 }
