@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -51,7 +52,12 @@ public class ErrorHandler {
 	}
 
 	@ExceptionHandler(ValidacaoException.class)
-	public ResponseEntity<String> tratarErroRegraDeNegocio(ValidacaoException ex) {
+	public ResponseEntity<String> handleValidationError(ValidacaoException ex) {
 		return ResponseEntity.badRequest().body(ex.getMessage());
+	}
+
+	@ExceptionHandler(AuthenticationException.class)
+	public ResponseEntity<String> handleAuthError() {
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Falha na autenticação");
 	}
 }
