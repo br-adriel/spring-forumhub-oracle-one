@@ -12,4 +12,3 @@ CREATE TABLE tb_perfil_usuario (
     FOREIGN KEY (usuario_id) REFERENCES tb_usuario(id) ON DELETE CASCADE,
     FOREIGN KEY (perfil_id) REFERENCES tb_perfil(id) ON DELETE CASCADE
 );
-
