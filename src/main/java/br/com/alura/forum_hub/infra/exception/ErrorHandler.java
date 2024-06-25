@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import br.com.alura.forum_hub.domain.ValidacaoException;
 import jakarta.persistence.EntityNotFoundException;
 
 @RestControllerAdvice
@@ -47,5 +48,10 @@ public class ErrorHandler {
 	@ExceptionHandler(BadCredentialsException.class)
 	public ResponseEntity<String> handleBadCredentials() {
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciais inválidas");
+	}
+
+	@ExceptionHandler(ValidacaoException.class)
+	public ResponseEntity<String> tratarErroRegraDeNegocio(ValidacaoException ex) {
+		return ResponseEntity.badRequest().body(ex.getMessage());
 	}
 }
