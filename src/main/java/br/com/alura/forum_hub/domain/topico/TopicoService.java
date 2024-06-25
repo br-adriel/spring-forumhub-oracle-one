@@ -7,9 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +18,7 @@ import br.com.alura.forum_hub.domain.topico.dto.DadosDetalhamentoTopico;
 import br.com.alura.forum_hub.domain.topico.validation.TituloDiferenteDeMensagem;
 import br.com.alura.forum_hub.domain.topico.validation.ValidadorAtualizacaoTopico;
 import br.com.alura.forum_hub.domain.topico.validation.ValidadorCadastroTopico;
-import br.com.alura.forum_hub.domain.usuario.Usuario;
+import br.com.alura.forum_hub.infra.security.auth.AuthService;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
@@ -40,15 +37,11 @@ public class TopicoService {
 
 	@Transactional
 	public DadosDetalhamentoTopico cadastrar(DadosCadastroTopico dados) {
-		var authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication instanceof AnonymousAuthenticationToken) {
-			throw new BadCredentialsException("Usuário ausente ou inválido");
-		}
+		var autor = AuthService.requestUser();
 
 		validadoresCadastro.forEach(v -> v.validar(dados));
 
 		var curso = cursoRepository.getReferenceById(dados.curso());
-		var autor = (Usuario) authentication.getPrincipal();
 		var topico = new Topico(null, dados.titulo(), dados.mensagem(), LocalDateTime.now(),
 				StatusToptico.NAO_RESPONDIDO, autor,
 				curso);
@@ -87,11 +80,7 @@ public class TopicoService {
 
 	@Transactional
 	public Topico atualizar(Long id, DadosAtualizacaoTopico dados) {
-		var authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication instanceof AnonymousAuthenticationToken) {
-			throw new BadCredentialsException("Usuário ausente ou inválido");
-		}
-		var usuarioAtual = (Usuario) authentication.getPrincipal();
+		var usuarioAtual = AuthService.requestUser();
 
 		var topico = topicoRepository.getReferenceById(id);
 		if (!usuarioAtual.equals(topico.getAutor())) {

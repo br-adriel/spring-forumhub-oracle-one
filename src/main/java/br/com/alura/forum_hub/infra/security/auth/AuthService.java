@@ -4,8 +4,11 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,5 +67,13 @@ public class AuthService {
 		var authentication = manager.authenticate(authenticationToken);
 		var accessToken = tokenService.gerarToken((Usuario) authentication.getPrincipal());
 		return new DadosAutenticacaoBemSucedida(accessToken);
+	}
+
+	public static Usuario requestUser() {
+		var authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication instanceof AnonymousAuthenticationToken) {
+			throw new BadCredentialsException("Usuário ausente ou inválido");
+		}
+		return (Usuario) authentication.getPrincipal();
 	}
 }
