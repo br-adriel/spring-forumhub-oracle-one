@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import br.com.alura.forum_hub.domain.usuario.dto.DadosAtualizacaoUsuario;
 import br.com.alura.forum_hub.domain.usuario.dto.DadosCadastroUsuario;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -84,5 +85,17 @@ public class Usuario implements UserDetails {
 		this.nome = dados.nome();
 		this.senha = senhaCriptografada;
 		this.perfis = perfis;
+	}
+
+	public void atualizar(DadosAtualizacaoUsuario dados, String senhaCriptografada) {
+		if (dados.email() != null) {
+			this.email = dados.email();
+		}
+		if (dados.nome() != null) {
+			this.nome = dados.nome();
+		}
+		if (senhaCriptografada != null) {
+			this.senha = senhaCriptografada;
+		}
 	}
 }
