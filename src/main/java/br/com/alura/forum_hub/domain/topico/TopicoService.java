@@ -63,4 +63,8 @@ public class TopicoService {
 		}
 		return topicoRepository.findAllByOrderByDataCriacaoAsc(paginacao);
 	}
+
+	public Topico detalhar(Long id) {
+		return topicoRepository.getReferenceById(id);
+	}
 }
