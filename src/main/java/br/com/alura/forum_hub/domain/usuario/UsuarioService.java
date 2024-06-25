@@ -38,4 +38,10 @@ public class UsuarioService {
 		usuario.atualizar(dados, senhaCriptografada);
 		return usuario;
 	}
+
+	public void excluir(Long id) {
+		var usuario = repository.getReferenceById(id);
+		AuthService.throwAccessDeniedIfNotRequestUser(usuario);
+		repository.deleteById(id);
+	}
 }
