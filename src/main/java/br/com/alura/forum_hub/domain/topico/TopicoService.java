@@ -18,7 +18,6 @@ import br.com.alura.forum_hub.domain.topico.validation.TituloDiferenteDeMensagem
 import br.com.alura.forum_hub.domain.topico.validation.ValidadorAtualizacaoTopico;
 import br.com.alura.forum_hub.domain.topico.validation.ValidadorCadastroTopico;
 import br.com.alura.forum_hub.infra.security.auth.AuthService;
-import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class TopicoService {
@@ -70,10 +69,8 @@ public class TopicoService {
 	}
 
 	public void excluir(Long id) {
-		var topico = topicoRepository.findById(id);
-		if (topico.isEmpty()) {
-			throw new EntityNotFoundException();
-		}
+		var topico = topicoRepository.getReferenceById(id);
+		AuthService.throwAccessDeniedIfNotRequestUser(topico.getAutor());
 		topicoRepository.deleteById(id);
 	}
 
