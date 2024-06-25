@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -80,12 +79,10 @@ public class TopicoService {
 
 	@Transactional
 	public Topico atualizar(Long id, DadosAtualizacaoTopico dados) {
-		var usuarioAtual = AuthService.requestUser();
-
 		var topico = topicoRepository.getReferenceById(id);
-		if (!usuarioAtual.equals(topico.getAutor())) {
-			throw new AccessDeniedException("Você não possui permissões para alterar esse tópico");
-		}
+		AuthService.throwAccessDeniedIfNotRequestUser(
+				topico.getAutor(),
+				"Você não possui permissões para alterar esse tópico");
 
 		validadoresAtualizacao.forEach(v -> v.validar(dados));
 

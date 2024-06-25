@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -75,5 +76,15 @@ public class AuthService {
 			throw new BadCredentialsException("Usuário ausente ou inválido");
 		}
 		return (Usuario) authentication.getPrincipal();
+	}
+
+	public static void throwAccessDeniedIfNotRequestUser(Usuario usuario, String msg) {
+		if (!requestUser().equals(usuario)) {
+			throw new AccessDeniedException(msg);
+		}
+	}
+
+	public static void throwAccessDeniedIfNotRequestUser(Usuario usuario) {
+		throwAccessDeniedIfNotRequestUser(usuario, "Acesso negado");
 	}
 }
