@@ -17,6 +17,7 @@ import br.com.alura.forum_hub.domain.topico.dto.DadosCadastroTopico;
 import br.com.alura.forum_hub.domain.topico.dto.DadosDetalhamentoTopico;
 import br.com.alura.forum_hub.domain.topico.validation.ValidadorCadastroTopico;
 import br.com.alura.forum_hub.domain.usuario.Usuario;
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class TopicoService {
@@ -66,5 +67,13 @@ public class TopicoService {
 
 	public Topico detalhar(Long id) {
 		return topicoRepository.getReferenceById(id);
+	}
+
+	public void excluir(Long id) {
+		var topico = topicoRepository.findById(id);
+		if (topico.isEmpty()) {
+			throw new EntityNotFoundException();
+		}
+		topicoRepository.deleteById(id);
 	}
 }
