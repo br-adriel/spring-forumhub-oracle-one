@@ -3,6 +3,8 @@ package br.com.alura.forum_hub.domain.usuario;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +23,14 @@ public class UsuarioService {
 
 	@Autowired
 	private List<ValidadorAtualizacaoUsuario> validadoresAtualizacaoUsuario;
+
+	public Page<Usuario> listar(Pageable paginacao) {
+		return repository.findAll(paginacao);
+	}
+
+	public Usuario detalhar(Long id) {
+		return repository.getReferenceById(id);
+	}
 
 	@Transactional
 	public Usuario atualizar(Long id, DadosAtualizacaoUsuario dados) {

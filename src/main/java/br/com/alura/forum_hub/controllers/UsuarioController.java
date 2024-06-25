@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.alura.forum_hub.domain.usuario.UsuarioRepository;
 import br.com.alura.forum_hub.domain.usuario.UsuarioService;
 import br.com.alura.forum_hub.domain.usuario.dto.DadosAtualizacaoUsuario;
 import br.com.alura.forum_hub.domain.usuario.dto.DadosDetalhamentoUsuario;
@@ -25,18 +24,15 @@ public class UsuarioController {
 	@Autowired
 	private UsuarioService service;
 
-	@Autowired
-	private UsuarioRepository repository;
-
 	@GetMapping
 	public ResponseEntity<Page<DadosListagemUsuario>> listar(Pageable paginacao) {
-		var page = repository.findAll(paginacao).map(DadosListagemUsuario::new);
+		var page = service.listar(paginacao).map(DadosListagemUsuario::new);
 		return ResponseEntity.ok().body(page);
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<DadosDetalhamentoUsuario> detalhar(@PathVariable Long id) {
-		var usuario = repository.getReferenceById(id);
+		var usuario = service.detalhar(id);
 		return ResponseEntity.ok(new DadosDetalhamentoUsuario(usuario));
 	}
 
