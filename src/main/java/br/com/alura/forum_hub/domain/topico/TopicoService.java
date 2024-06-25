@@ -6,15 +6,20 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.alura.forum_hub.domain.curso.Curso;
 import br.com.alura.forum_hub.domain.curso.CursoRepository;
+import br.com.alura.forum_hub.domain.topico.dto.DadosAtualizacaoTopico;
 import br.com.alura.forum_hub.domain.topico.dto.DadosCadastroTopico;
 import br.com.alura.forum_hub.domain.topico.dto.DadosDetalhamentoTopico;
+import br.com.alura.forum_hub.domain.topico.validation.TituloDiferenteDeMensagem;
+import br.com.alura.forum_hub.domain.topico.validation.ValidadorAtualizacaoTopico;
 import br.com.alura.forum_hub.domain.topico.validation.ValidadorCadastroTopico;
 import br.com.alura.forum_hub.domain.usuario.Usuario;
 import jakarta.persistence.EntityNotFoundException;
@@ -23,6 +28,9 @@ import jakarta.persistence.EntityNotFoundException;
 public class TopicoService {
 	@Autowired
 	private List<ValidadorCadastroTopico> validadoresCadastro;
+
+	@Autowired
+	private List<ValidadorAtualizacaoTopico> validadoresAtualizacao;
 
 	@Autowired
 	private TopicoRepository topicoRepository;
@@ -75,5 +83,35 @@ public class TopicoService {
 			throw new EntityNotFoundException();
 		}
 		topicoRepository.deleteById(id);
+	}
+
+	@Transactional
+	public Topico atualizar(Long id, DadosAtualizacaoTopico dados) {
+		var authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication instanceof AnonymousAuthenticationToken) {
+			throw new BadCredentialsException("Usuário ausente ou inválido");
+		}
+		var usuarioAtual = (Usuario) authentication.getPrincipal();
+
+		var topico = topicoRepository.getReferenceById(id);
+		if (!usuarioAtual.equals(topico.getAutor())) {
+			throw new AccessDeniedException("Você não possui permissões para alterar esse tópico");
+		}
+
+		validadoresAtualizacao.forEach(v -> v.validar(dados));
+
+		Curso curso = null;
+		if (dados.curso() != null) {
+			curso = cursoRepository.getReferenceById(dados.curso());
+		}
+
+		topico.atualizar(dados, curso);
+
+		if (dados.titulo() == null || dados.mensagem() == null) {
+			TituloDiferenteDeMensagem.validar(topico.getTitulo(), topico.getMensagem());
+		}
+
+		topicoRepository.save(topico);
+		return topico;
 	}
 }
