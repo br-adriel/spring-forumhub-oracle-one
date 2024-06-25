@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,5 +51,11 @@ public class TopicoController {
 	public ResponseEntity<DadosDetalhamentoTopico> detalhar(@PathVariable Long id) {
 		var topico = topicoService.detalhar(id);
 		return ResponseEntity.ok(new DadosDetalhamentoTopico(topico));
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> excluir(@PathVariable Long id) {
+		topicoService.excluir(id);
+		return ResponseEntity.noContent().build();
 	}
 }
