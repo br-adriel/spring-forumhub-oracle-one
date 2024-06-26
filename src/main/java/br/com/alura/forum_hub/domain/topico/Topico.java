@@ -1,10 +1,13 @@
 package br.com.alura.forum_hub.domain.topico;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import br.com.alura.forum_hub.domain.curso.Curso;
+import br.com.alura.forum_hub.domain.resposta.Resposta;
 import br.com.alura.forum_hub.domain.topico.dto.DadosAtualizacaoTopico;
 import br.com.alura.forum_hub.domain.usuario.Usuario;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -15,6 +18,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -48,6 +52,9 @@ public class Topico {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "curso", nullable = false)
 	private Curso curso;
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Resposta> respostas;
 
 	public void atualizar(DadosAtualizacaoTopico dados, Curso curso) {
 		if (dados.mensagem() != null) {

@@ -42,7 +42,7 @@ public class TopicoService {
 		var curso = cursoRepository.getReferenceById(dados.curso());
 		var topico = new Topico(null, dados.titulo(), dados.mensagem(), LocalDateTime.now(),
 				StatusToptico.NAO_RESPONDIDO, autor,
-				curso);
+				curso, null);
 		topicoRepository.save(topico);
 		return new DadosDetalhamentoTopico(topico);
 	}
