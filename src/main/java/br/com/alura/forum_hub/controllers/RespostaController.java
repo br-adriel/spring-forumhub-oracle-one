@@ -2,6 +2,8 @@ package br.com.alura.forum_hub.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,5 +30,11 @@ public class RespostaController {
 				.buildAndExpand(resposta.getId())
 				.toUri();
 		return ResponseEntity.created(uri).body(new DadosDetalhamentoResposta(resposta));
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<DadosDetalhamentoResposta> detalhar(@PathVariable Long id) {
+		var resposta = respostaService.detalhar(id);
+		return ResponseEntity.ok(new DadosDetalhamentoResposta(resposta));
 	}
 }
