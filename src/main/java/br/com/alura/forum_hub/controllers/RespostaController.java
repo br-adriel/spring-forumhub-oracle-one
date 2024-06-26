@@ -8,12 +8,14 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.alura.forum_hub.domain.resposta.RespostaService;
+import br.com.alura.forum_hub.domain.resposta.dto.DadosAtualizacaoResposta;
 import br.com.alura.forum_hub.domain.resposta.dto.DadosCadastroResposta;
 import br.com.alura.forum_hub.domain.resposta.dto.DadosDetalhamentoResposta;
 import br.com.alura.forum_hub.domain.resposta.dto.DadosListagemResposta;
@@ -50,7 +52,15 @@ public class RespostaController {
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> excluir(@PathVariable Long id) {
-		this.respostaService.excluir(id);
+		respostaService.excluir(id);
 		return ResponseEntity.noContent().build();
+	}
+
+	@PutMapping("/{id}")
+	public ResponseEntity<DadosDetalhamentoResposta> atualizar(
+			@PathVariable Long id,
+			@RequestBody @Valid DadosAtualizacaoResposta dados) {
+		var resposta = respostaService.atualizar(id, dados);
+		return ResponseEntity.ok(new DadosDetalhamentoResposta(resposta));
 	}
 }
