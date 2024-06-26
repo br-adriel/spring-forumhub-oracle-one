@@ -12,10 +12,12 @@ import br.com.alura.forum_hub.domain.usuario.dto.DadosCadastroUsuario;
 import br.com.alura.forum_hub.infra.security.auth.AuthService;
 import br.com.alura.forum_hub.infra.security.auth.dto.DadosAutenticacaoBemSucedida;
 import br.com.alura.forum_hub.infra.security.auth.dto.DadosLogin;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("auth")
+@Tag(name = "Autenticação")
 public class AuthController {
 	@Autowired
 	private AuthService authService;

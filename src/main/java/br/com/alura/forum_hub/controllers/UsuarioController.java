@@ -16,10 +16,14 @@ import br.com.alura.forum_hub.domain.usuario.UsuarioService;
 import br.com.alura.forum_hub.domain.usuario.dto.DadosAtualizacaoUsuario;
 import br.com.alura.forum_hub.domain.usuario.dto.DadosDetalhamentoUsuario;
 import br.com.alura.forum_hub.domain.usuario.dto.DadosListagemUsuario;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("usuarios")
+@SecurityRequirement(name = "bearer-key")
+@Tag(name = "Usuário")
 public class UsuarioController {
 	@Autowired
 	private UsuarioService service;

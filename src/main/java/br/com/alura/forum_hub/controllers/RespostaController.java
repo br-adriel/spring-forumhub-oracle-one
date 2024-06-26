@@ -20,10 +20,14 @@ import br.com.alura.forum_hub.domain.resposta.dto.DadosAtualizacaoResposta;
 import br.com.alura.forum_hub.domain.resposta.dto.DadosCadastroResposta;
 import br.com.alura.forum_hub.domain.resposta.dto.DadosDetalhamentoResposta;
 import br.com.alura.forum_hub.domain.resposta.dto.DadosListagemResposta;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("respostas")
+@SecurityRequirement(name = "bearer-key")
+@Tag(name = "Resposta")
 public class RespostaController {
 	@Autowired
 	private RespostaService respostaService;

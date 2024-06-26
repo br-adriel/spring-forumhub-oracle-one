@@ -19,10 +19,14 @@ import br.com.alura.forum_hub.domain.curso.dto.DadosAtualizacaoCurso;
 import br.com.alura.forum_hub.domain.curso.dto.DadosCadastroCurso;
 import br.com.alura.forum_hub.domain.curso.dto.DadosDetalhamentoCurso;
 import br.com.alura.forum_hub.domain.curso.dto.DadosListagemCurso;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("cursos")
+@SecurityRequirement(name = "bearer-key")
+@Tag(name = "Curso")
 public class CursoController {
 	@Autowired
 	private CursoService service;

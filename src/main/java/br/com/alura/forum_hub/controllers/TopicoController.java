@@ -20,10 +20,14 @@ import br.com.alura.forum_hub.domain.topico.dto.DadosAtualizacaoTopico;
 import br.com.alura.forum_hub.domain.topico.dto.DadosCadastroTopico;
 import br.com.alura.forum_hub.domain.topico.dto.DadosDetalhamentoTopico;
 import br.com.alura.forum_hub.domain.topico.dto.DadosListagemTopico;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("topicos")
+@SecurityRequirement(name = "bearer-key")
+@Tag(name = "Tópico")
 public class TopicoController {
 	@Autowired
 	private TopicoService topicoService;
