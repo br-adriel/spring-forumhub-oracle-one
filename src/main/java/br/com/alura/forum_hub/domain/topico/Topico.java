@@ -69,4 +69,8 @@ public class Topico {
 			this.titulo = dados.titulo();
 		}
 	}
+
+	public void marcarComoSolucionado() {
+		this.status = StatusToptico.RESPONDIDO;
+	}
 }
