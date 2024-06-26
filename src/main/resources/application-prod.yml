@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: ${DATASOURCE_URL}
+    username: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+api:
+  security:
+    token:
+      secret: ${JWT_TOKEN_SECRET}
+      access-expiration-minutes: ${JWT_TOKEN_EXPIRATION}
