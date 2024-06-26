@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,5 +46,11 @@ public class RespostaController {
 	public ResponseEntity<Page<DadosListagemResposta>> listar(Pageable paginacao) {
 		var page = respostaService.listar(paginacao).map(DadosListagemResposta::new);
 		return ResponseEntity.ok(page);
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> excluir(@PathVariable Long id) {
+		this.respostaService.excluir(id);
+		return ResponseEntity.noContent().build();
 	}
 }
