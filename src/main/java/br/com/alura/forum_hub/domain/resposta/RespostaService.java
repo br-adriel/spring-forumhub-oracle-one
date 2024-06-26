@@ -8,9 +8,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.alura.forum_hub.domain.ValidacaoException;
 import br.com.alura.forum_hub.domain.resposta.dto.DadosAtualizacaoResposta;
 import br.com.alura.forum_hub.domain.resposta.dto.DadosCadastroResposta;
 import br.com.alura.forum_hub.domain.resposta.validation.ValidadorCadastroResposta;
+import br.com.alura.forum_hub.domain.topico.StatusToptico;
 import br.com.alura.forum_hub.domain.topico.TopicoRepository;
 import br.com.alura.forum_hub.infra.security.auth.AuthService;
 import jakarta.validation.Valid;
@@ -62,6 +64,23 @@ public class RespostaService {
 		resposta.atualizar(dados);
 		respostaRepository.save(resposta);
 		return resposta;
+	}
+
+	@Transactional
+	public void marcarComoSolucao(Long id) {
+		var resposta = respostaRepository.getReferenceById(id);
+		var topico = resposta.getTopico();
+
+		AuthService.throwAccessDeniedIfNotRequestUser(topico.getAutor());
+		if (topico.getStatus() == StatusToptico.RESPONDIDO) {
+			throw new ValidacaoException("Esse tópico já foi respondido");
+		}
+
+		resposta.marcarComoSolucao();
+		respostaRepository.save(resposta);
+
+		topico.marcarComoSolucionado();
+		topicoRepository.save(topico);
 	}
 
 }
