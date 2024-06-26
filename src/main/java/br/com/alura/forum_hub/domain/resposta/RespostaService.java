@@ -43,4 +43,11 @@ public class RespostaService {
 	public Page<Resposta> listar(Pageable paginacao) {
 		return respostaRepository.findAll(paginacao);
 	}
+
+	public void excluir(Long id) {
+		var resposta = respostaRepository.getReferenceById(id);
+		AuthService.throwAccessDeniedIfNotRequestUser(resposta.getAutor());
+		respostaRepository.deleteById(id);
+	}
+
 }
