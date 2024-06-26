@@ -2,6 +2,7 @@ package br.com.alura.forum_hub.domain.resposta;
 
 import java.time.LocalDateTime;
 
+import br.com.alura.forum_hub.domain.resposta.dto.DadosCadastroResposta;
 import br.com.alura.forum_hub.domain.topico.Topico;
 import br.com.alura.forum_hub.domain.usuario.Usuario;
 import jakarta.persistence.Column;
@@ -39,4 +40,13 @@ public class Resposta {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Usuario autor;
+
+	public Resposta(DadosCadastroResposta dados, Topico topico, Usuario autor) {
+		this.mensagem = dados.mensagem();
+		this.solucao = false;
+		this.dataCriacao = LocalDateTime.now();
+		this.topico = topico;
+		this.autor = autor;
+	}
+
 }
