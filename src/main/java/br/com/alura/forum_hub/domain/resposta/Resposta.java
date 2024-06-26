@@ -2,6 +2,7 @@ package br.com.alura.forum_hub.domain.resposta;
 
 import java.time.LocalDateTime;
 
+import br.com.alura.forum_hub.domain.resposta.dto.DadosAtualizacaoResposta;
 import br.com.alura.forum_hub.domain.resposta.dto.DadosCadastroResposta;
 import br.com.alura.forum_hub.domain.topico.Topico;
 import br.com.alura.forum_hub.domain.usuario.Usuario;
@@ -13,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -47,6 +49,12 @@ public class Resposta {
 		this.dataCriacao = LocalDateTime.now();
 		this.topico = topico;
 		this.autor = autor;
+	}
+
+	public void atualizar(@Valid DadosAtualizacaoResposta dados) {
+		if (dados.mensagem() != null) {
+			this.mensagem = dados.mensagem();
+		}
 	}
 
 }
