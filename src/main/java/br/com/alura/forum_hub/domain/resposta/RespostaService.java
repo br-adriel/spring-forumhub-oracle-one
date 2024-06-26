@@ -8,10 +8,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.alura.forum_hub.domain.resposta.dto.DadosAtualizacaoResposta;
 import br.com.alura.forum_hub.domain.resposta.dto.DadosCadastroResposta;
 import br.com.alura.forum_hub.domain.resposta.validation.ValidadorCadastroResposta;
 import br.com.alura.forum_hub.domain.topico.TopicoRepository;
 import br.com.alura.forum_hub.infra.security.auth.AuthService;
+import jakarta.validation.Valid;
 
 @Service
 public class RespostaService {
@@ -44,10 +46,22 @@ public class RespostaService {
 		return respostaRepository.findAll(paginacao);
 	}
 
+	@Transactional
 	public void excluir(Long id) {
 		var resposta = respostaRepository.getReferenceById(id);
 		AuthService.throwAccessDeniedIfNotRequestUser(resposta.getAutor());
 		respostaRepository.deleteById(id);
+	}
+
+	@Transactional
+	public Resposta atualizar(Long id, @Valid DadosAtualizacaoResposta dados) {
+		var resposta = respostaRepository.getReferenceById(id);
+
+		AuthService.throwAccessDeniedIfNotRequestUser(resposta.getAutor());
+
+		resposta.atualizar(dados);
+		respostaRepository.save(resposta);
+		return resposta;
 	}
 
 }
