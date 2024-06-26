@@ -57,4 +57,8 @@ public class Resposta {
 		}
 	}
 
+	public void marcarComoSolucao() {
+		this.solucao = true;
+	}
+
 }
