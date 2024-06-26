@@ -14,7 +14,7 @@ import br.com.alura.forum_hub.infra.security.auth.AuthService;
 @Service
 public class RespostaService {
 	@Autowired
-	private RespostaRepository repository;
+	private RespostaRepository respostaRepository;
 
 	@Autowired
 	private TopicoRepository topicoRepository;
@@ -30,7 +30,11 @@ public class RespostaService {
 		var autor = AuthService.requestUser();
 
 		var resposta = new Resposta(dados, topico, autor);
-		repository.save(resposta);
+		respostaRepository.save(resposta);
 		return resposta;
+	}
+
+	public Resposta detalhar(Long id) {
+		return respostaRepository.getReferenceById(id);
 	}
 }
