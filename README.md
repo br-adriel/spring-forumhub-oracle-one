@@ -1,6 +1,6 @@
 # ForumHub
 
-API REST para plataforma de forúm de plataforma de ensino. Contém endpois para
+API REST para forúm de plataforma de ensino. Contém endpoints para
 gerenciamento de usuários, cursos, tópicos e respostas. O esquema de
 autenticação utiliza tokens JWT e todos os recursos contam com validação de
 parâmetros e corpo da requisição.
